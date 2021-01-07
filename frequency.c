@@ -42,7 +42,7 @@ while((let=fgetc(stdin))!=-1)
    (tmp->count)++; //add 1 to the curr letter's node(end of the word)
    if(tmp!=root){ 
    (tmp->end)=1;
-   tmp=root; \\go back to root
+   tmp=root; //go back to root
    }
    i=0; //mark the i so this letter doe's not get in to the tree 
  }

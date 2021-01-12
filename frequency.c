@@ -14,11 +14,11 @@ struct node* children[NUM_LETTERS];
 
 struct node* newNode(char letter, char *newWord) 
 {  
-  struct node* node = (struct node*)malloc(sizeof(struct node));
+  struct node* node = (struct node*)calloc(1,sizeof(struct node));
   node->letter = letter;
   node->count = 0; 
   node->end=0;
-  node->word=malloc(strlen(newWord));
+  node->word=calloc(1,strlen(newWord)+1);
   strcpy(node->word, newWord);
   node->childSize=0; 
   for(int i=0; i<NUM_LETTERS; i++)
@@ -31,7 +31,7 @@ void fillTree(node *root)
 {
 char let;
 int i;
-struct node *tmp=root; 
+struct node *tmp=root;
 while((let=fgetc(stdin))!=-1)
 {
  i=1;
@@ -54,7 +54,7 @@ while((let=fgetc(stdin))!=-1)
   if(tmp->children[let-97]==NULL){//if this letter (in this place) does'nt exist already 
   //crate a new node
      int len=strlen(tmp->word);
-     char *newWord=malloc(len+2); //make a new string (bigger +2 from the current word)
+     char *newWord=calloc(1,len+2); //make a new string (bigger +2 from the current word)
      strcpy(newWord, tmp->word); //copy the cuurr string of tmp node (the word in this place)
      newWord[len]=let; //add the curr char 
      newWord[len+1]='\0';
@@ -78,15 +78,15 @@ void Sort_down(node *curr)//print from z to a
     free(curr);
     return;
   } 
-  for(int i=26; i>=0; i--){ //scan all the children of the curr node from the last(z) to first(a)
+  for(int i=25; i>=0; i--){ //scan all the children of the curr node from the last(z) to first(a)
     if(curr->children[i]!=NULL) 
-       Sort_down(curr->children[i]);//do this method on the next children
+      Sort_down(curr->children[i]);//do this method on the next children
   }
    if(curr->end==1) //if the node is an end of a word print his word 
     printf("%s %d\n", (curr->word), curr->count);
 
    free(curr->word);//free the node (after we finish to scan his children)
-   free(curr);   
+   free(curr);
 }
 
 void Sort_up(node *curr)//print from a to z
@@ -121,4 +121,5 @@ int main(int argc, char *argcv[])
 
 return 0;
 }
+
 
